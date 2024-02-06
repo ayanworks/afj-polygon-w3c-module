@@ -1,17 +1,16 @@
-import type { DocumentLoader, JwsLinkedDataSignatureOptions, Proof } from '@aries-framework/core'
-import type { JsonLdDoc } from '@aries-framework/core/build/modules/vc/data-integrity/jsonldUtil'
+import type { DocumentLoader, JwsLinkedDataSignatureOptions, Proof } from '@credo-ts/core'
+import type { JsonLdDoc } from '@credo-ts/core/build/modules/vc/data-integrity/jsonldUtil'
 
 import {
   CREDENTIALS_CONTEXT_V1_URL,
   JwsLinkedDataSignature,
   SECURITY_CONTEXT_URL,
   vcLibraries,
-} from '@aries-framework/core'
-import { _includesContext } from '@aries-framework/core/build/modules/vc/data-integrity/jsonldUtil'
+  SECURITY_CONTEXT_SECP256k1_URL,
+} from '@credo-ts/core'
+import { _includesContext } from '@credo-ts/core/build/modules/vc/data-integrity/jsonldUtil'
 
 const { jsonld } = vcLibraries
-
-export const SECURITY_CONTEXT_SECP256k1_URL = 'https://w3id.org/security/suites/secp256k1-2019/v1'
 
 type EcdsaSecp256k1Signature2019Options = Pick<
   JwsLinkedDataSignatureOptions,

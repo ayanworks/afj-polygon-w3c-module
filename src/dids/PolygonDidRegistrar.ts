@@ -9,10 +9,11 @@ import type {
   DidUpdateResult,
   Buffer,
   Wallet,
-} from '@aries-framework/core'
+} from '@credo-ts/core'
 import type { ResolverRegistry } from 'did-resolver'
 
-import { AskarWallet } from '@aries-framework/askar'
+import { getResolver } from '@ayanworks/polygon-did-resolver'
+import { AskarWallet } from '@credo-ts/askar'
 import {
   DidRepository,
   KeyType,
@@ -20,10 +21,9 @@ import {
   DidDocumentRole,
   JsonTransformer,
   DidDocument,
-  AriesFrameworkError,
+  CredoError,
   WalletError,
-} from '@aries-framework/core'
-import { getResolver } from '@ayanworks/polygon-did-resolver'
+} from '@credo-ts/core'
 import { Resolver } from 'did-resolver'
 import { SigningKey } from 'ethers'
 
@@ -134,13 +134,13 @@ export class PolygonDidRegistrar implements DidRegistrar {
       }
 
       if (!didRecord) {
-        throw new AriesFrameworkError('')
+        throw new CredoError('')
       }
 
       const publicKeyBase58 = await this.getPublicKeyFromDid(agentContext, options.did)
 
       if (!publicKeyBase58) {
-        throw new AriesFrameworkError('Public Key not found in wallet')
+        throw new CredoError('Public Key not found in wallet')
       }
 
       const signingKey = await this.getSigningKey(agentContext.wallet, publicKeyBase58)
@@ -187,7 +187,7 @@ export class PolygonDidRegistrar implements DidRegistrar {
 
   private async getSigningKey(wallet: Wallet, publicKeyBase58: string): Promise<SigningKey> {
     if (!(wallet instanceof AskarWallet)) {
-      throw new AriesFrameworkError('Incorrect wallet type: Polygon Module currently only supports Askar wallet')
+      throw new CredoError('Incorrect wallet type: Polygon Module currently only supports Askar wallet')
     }
 
     const keyEntry = await wallet.session.fetchKey({ name: publicKeyBase58 })
@@ -208,11 +208,11 @@ export class PolygonDidRegistrar implements DidRegistrar {
 
     const didRecord = await didRepository.findCreatedDid(agentContext, did)
     if (!didRecord) {
-      throw new AriesFrameworkError('DidRecord not found')
+      throw new CredoError('DidRecord not found')
     }
 
     if (!didRecord.didDocument?.verificationMethod) {
-      throw new AriesFrameworkError('VerificationMethod not found cannot get public key')
+      throw new CredoError('VerificationMethod not found cannot get public key')
     }
 
     const publicKeyBase58 = didRecord.didDocument.verificationMethod[0].publicKeyBase58

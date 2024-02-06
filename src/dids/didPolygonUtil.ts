@@ -1,6 +1,8 @@
-import type { DidCreateResult, DidDocument } from '@aries-framework/core'
-
-import { VERIFICATION_METHOD_TYPE_ECDSA_SECP256K1_VERIFICATION_KEY_2019 } from '@aries-framework/core'
+import {
+  VERIFICATION_METHOD_TYPE_ECDSA_SECP256K1_VERIFICATION_KEY_2019,
+  type DidCreateResult,
+  type DidDocument,
+} from '@credo-ts/core'
 import { computeAddress } from 'ethers'
 
 export const polygonDidRegex = new RegExp(/^did:polygon(:testnet)?:0x[0-9a-fA-F]{40}$/)
